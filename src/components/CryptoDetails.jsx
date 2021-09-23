@@ -20,6 +20,7 @@ import {
   useGetCryptoHistoryQuery,
 } from '../services/cryptoApi';
 import LineChart from './LineChart';
+import Loader from './Loader';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -95,7 +96,8 @@ const CryptoDetails = () => {
     },
   ];
 
-  if (isFetching) return 'Loading...';
+  if (isFetching) return <Loader />;
+
   return (
     <Col className='coin-detail-container'>
       <Col className='coin-heading-container'>

@@ -1,39 +1,35 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-//3. now we need to query an API with the help of provided functions from RTK.
-// now go back to the store to connect this API to the store.
-
 const cryptoApiHeaders = {
-  'x-rapidapi-host': 'coinranking1.p.rapidapi.com',
-  'x-rapidapi-key': 'c59d84eb6bmshe7c4b366c694dbep14f598jsn285ef968c1dd',
+  'x-rapidapi-key': process.env.REACT_APP_RAPIDAPI_KEY,
+  'x-rapidapi-host': process.env.REACT_APP_CRYPTO_RAPIDAPI_HOST,
 };
-
-const baseUrl = 'https://coinranking1.p.rapidapi.com';
 
 const createRequest = (url) => ({ url, headers: cryptoApiHeaders });
 
 export const cryptoApi = createApi({
   reducerPath: 'cryptoApi',
-  baseQuery: fetchBaseQuery({ baseUrl }),
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_CRYPTO_API_URL }),
   endpoints: (builder) => ({
     getCryptos: builder.query({
       query: (count) => createRequest(`/coins?limit=${count}`),
+    }),
+    getExchanges: builder.query({
+      query: () => createRequest('/exchanges'),
     }),
     getCryptoDetails: builder.query({
       query: (coinId) => createRequest(`/coin/${coinId}`),
     }),
     getCryptoHistory: builder.query({
-      query: ({ coinId, timePeriod }) =>
-        createRequest(`/coin/${coinId}/history/${timePeriod}`),
+      query: ({ coinId, timeperiod }) =>
+        createRequest(`coin/${coinId}/history/${timeperiod}`),
     }),
   }),
 });
 
-//RTK creates a hook that you can use to call your query!!!
-//RTK creates this from the "getCryptos" method created in the above function. add use + Query (standard hook shape).
-
 export const {
   useGetCryptosQuery,
   useGetCryptoDetailsQuery,
+  useGetExchangesQuery,
   useGetCryptoHistoryQuery,
 } = cryptoApi;
