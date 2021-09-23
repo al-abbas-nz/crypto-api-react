@@ -31,7 +31,7 @@ const CryptoDetails = () => {
   const { data, isFetching } = useGetCryptoDetailsQuery(coinId);
   const { data: coinHistory } = useGetCryptoHistoryQuery({
     coinId,
-    setTimePeriod,
+    timePeriod,
   });
 
   const cryptoDetails = data?.data?.coin;
