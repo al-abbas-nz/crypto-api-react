@@ -27,11 +27,11 @@ const { Option } = Select;
 
 const CryptoDetails = () => {
   const { coinId } = useParams();
-  const [timePeriod, setTimeperiod] = useState('7d');
+  const [timePeriod, setTimePeriod] = useState('7d');
   const { data, isFetching } = useGetCryptoDetailsQuery(coinId);
   const { data: coinHistory } = useGetCryptoHistoryQuery({
     coinId,
-    timePeriod,
+    setTimePeriod,
   });
 
   const cryptoDetails = data?.data?.coin;
@@ -113,7 +113,7 @@ const CryptoDetails = () => {
         defaultValue='7d'
         className='select-time-period'
         placeholder='Select time period'
-        onChange={(value) => setTimeperiod(value)}
+        onChange={(value) => setTimePeriod(value)}
       >
         {time.map((date) => (
           <Option key={date}>{date}</Option>
